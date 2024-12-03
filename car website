@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Ride Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #121212;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .home-page {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 50px;
+      height: 100vh;
+    }
+
+    .home-text {
+      width: 50%;
+      text-align: left;
+    }
+
+    .car-image {
+      width: 50%;
+    }
+
+    .car-image img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+
+    button {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: darkred;
+    }
+
+    #rideDetails, #rideSummary {
+      background-color: #333;
+      padding: 20px;
+      margin: 50px auto;
+      border-radius: 10px;
+      width: 300px;
+    }
+
+    input {
+      margin: 10px 0;
+      padding: 10px;
+      width: 80%;
+      border: none;
+      border-radius: 5px;
+    }
+
+    h1, h2 {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <!-- Home Page -->
+  <section id="home">
+    <div class="home-page">
+      <div class="home-text">
+        <h1>SMART CAR DEALER</h1>
+        <p>Find your ideal car and start your next adventure.</p>
+        <button id="takeRide">Take a Ride</button>
+      </div>
+      <div class="car-image">
+        <img src="car.jpg" alt="Car Image">
+      </div>
+    </div>
+  </section>
+
+  <!-- Ride Details Form -->
+  <section id="rideDetails" class="hidden">
+    <h2>Ride Details</h2>
+    <form id="rideForm">
+      <input type="text" id="name" placeholder="Enter your name" required>
+      <input type="number" id="distance" placeholder="Enter distance in km" required>
+      <button type="submit">Calculate</button>
+      <button type="button" id="closeRideDetails">Close</button>
+    </form>
+  </section>
+
+  <!-- Ride Summary -->
+  <section id="rideSummary" class="hidden">
+    <h2>Ride Summary</h2>
+    <p id="summaryDetails"></p>
+    <button id="closeSummary">Close</button>
+  </section>
+
+  <script>
+    // Elements
+    const homeSection = document.getElementById("home");
+    const rideDetailsSection = document.getElementById("rideDetails");
+    const rideSummarySection = document.getElementById("rideSummary");
+    const rideForm = document.getElementById("rideForm");
+    const summaryDetails = document.getElementById("summaryDetails");
+    const takeRideButton = document.getElementById("takeRide");
+    const closeRideDetailsButton = document.getElementById("closeRideDetails");
+    const closeSummaryButton = document.getElementById("closeSummary");
+
+    // Show Ride Details Form
+    takeRideButton.addEventListener("click", () => {
+      homeSection.classList.add("hidden");
+      rideDetailsSection.classList.remove("hidden");
+    });
+
+    // Close Ride Details Form
+    closeRideDetailsButton.addEventListener("click", () => {
+      rideDetailsSection.classList.add("hidden");
+      homeSection.classList.remove("hidden");
+    });
+
+    // Close Ride Summary
+    closeSummaryButton.addEventListener("click", () => {
+      rideSummarySection.classList.add("hidden");
+      homeSection.classList.remove("hidden");
+    });
+
+    // Handle Form Submission
+    rideForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const distance = parseFloat(document.getElementById("distance").value);
+
+      if (distance && distance > 0) {
+        const cost = distance * 10; // Assuming Rs. 10 per km
+        const time = (distance / 60) * 60; // Converting hours to minutes (60 km/h average speed)
+
+        summaryDetails.innerHTML = `
+          <strong>Name:</strong> ${name}<br>
+          <strong>Distance:</strong> ${distance} km<br>
+          <strong>Cost:</strong> Rs. ${cost}<br>
+          <strong>Estimated Time:</strong> ${Math.round(time)} minutes
+        `;
+
+        rideDetailsSection.classList.add("hidden");
+        rideSummarySection.classList.remove("hidden");
+      } else {
+        alert("Please enter a valid distance!");
+      }
+    });
+  </script>
+</body>
+</html>
